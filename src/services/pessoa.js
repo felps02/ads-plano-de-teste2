@@ -3,18 +3,18 @@ const RepositorioExercicio= require("../repositories/pessoa.js")
 const repositorio = new RepositorioExercicio()
 class ServicoExercicio {
 
-    async PegarUm(id){
+    async PegarUm(id, transacao){
       if(!id || isNaN(id)) {
         throw new Error("Favor corretamente o id.")
       }
-      return repositorio.PegarUm(id)
+      return repositorio.PegarUm(id, transacao)
     }
 
     async PegarTodos(){
       return repositorio.PegarTodos()
     }
 
-    async Adicionar(pessoa){
+    async Adicionar(pessoa, transacao){
       if(!pessoa) {
         throw new Error("Favor preencher o pessoa.")
       } else if(!pessoa.nome) {
@@ -25,23 +25,25 @@ class ServicoExercicio {
         throw new Error("Favor preencher o senha.")
       }
 
-      return repositorio.Adicionar(pessoa)
+      return repositorio.Adicionar(pessoa, transacao)
     }
 
-    async Alterar(id, pessoa){
+    async Alterar(id, pessoa, transacao){
       if(!id || isNaN(id)) {
         throw new Error("Favor corretamente o id.")
       }
 
-      return repositorio.Adicionar(pessoa)
+      await repositorio.Alterar(id, pessoa, transacao)
+
+      return this.PegarUm(id, transacao)
     }
 
-    async Deletar(id){
+    async Deletar(id, transacao){
       if(!id || isNaN(id)) {
         throw new Error("Favor corretamente o id.")
       }
 
-      return repositorio.Deletar(id)
+      return repositorio.Deletar(id, transacao)
     }
 
 }
